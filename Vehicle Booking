@@ -1,0 +1,550 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+class VehicleBookingSwing {
+    private ArrayList<String> OwnerName = new ArrayList<>();
+    private ArrayList<String> Vehicle = new ArrayList<>();
+    private ArrayList<Integer> OwnerExperience = new ArrayList<>();
+    private ArrayList<String> OwnerGender = new ArrayList<>();
+    private ArrayList<String> OwnerPassword = new ArrayList<>();
+    private ArrayList<Integer> OwnerAge = new ArrayList<>();
+    private ArrayList<Long> OwnerMobileNumber = new ArrayList<>();
+    private ArrayList<String> OwnerCity = new ArrayList<>();
+    private ArrayList<String> Rating = new ArrayList<>();
+    private ArrayList<Integer> VehFare = new ArrayList<>();
+
+    private ArrayList<Integer> ClientAge = new ArrayList<>();
+    private ArrayList<String> ClientName = new ArrayList<>();
+    private ArrayList<String> ClientGender = new ArrayList<>();
+    private ArrayList<String> ClientPassword = new ArrayList<>();
+    private ArrayList<String> ClientConfirmPassword = new ArrayList<>();
+    private ArrayList<Long> ClientMobileNumber = new ArrayList<>();
+    private ArrayList<Long> ClientDL = new ArrayList<>();
+
+    private ArrayList<BookingDetails> bookings = new ArrayList<>();
+
+    void dataAdd() {
+        OwnerName.add("Mohan Sir");
+        OwnerName.add("Pramod Sir");
+        OwnerName.add("Vikash Jha");
+        OwnerName.add("Shivansh Raj");
+        OwnerName.add("Ankur Singh");
+        OwnerName.add("Vivek Kishor");
+        OwnerName.add("Amit Loda");
+
+        Vehicle.add("SUV Car");
+        Vehicle.add("Hero Honda Bike");
+        Vehicle.add("Maruti Suzuki Car");
+        Vehicle.add("Honda Activa Scooty");
+        Vehicle.add("Wagon R Car");
+        Vehicle.add("Indica Car");
+        Vehicle.add("Bajaj CT Car");
+
+        VehFare.add(600);
+        VehFare.add(250);
+        VehFare.add(500);
+        VehFare.add(300);
+        VehFare.add(750);
+        VehFare.add(615);
+        VehFare.add(450);
+
+        OwnerExperience.add(6);
+        OwnerExperience.add(5);
+        OwnerExperience.add(8);
+        OwnerExperience.add(8);
+        OwnerExperience.add(2);
+        OwnerExperience.add(4);
+        OwnerExperience.add(5);
+
+        OwnerGender.add("M");
+        OwnerGender.add("M");
+        OwnerGender.add("M");
+        OwnerGender.add("M");
+        OwnerGender.add("M");
+        OwnerGender.add("M");
+        OwnerGender.add("M");
+
+        OwnerPassword.add("Mohan123");
+        OwnerPassword.add("Pramod123");
+        OwnerPassword.add("Vikash123");
+        OwnerPassword.add("Shivansh123");
+        OwnerPassword.add("Ankur123");
+        OwnerPassword.add("Vivek123");
+        OwnerPassword.add("Amit123");
+
+        OwnerAge.add(30);
+        OwnerAge.add(33);
+        OwnerAge.add(40);
+        OwnerAge.add(45);
+        OwnerAge.add(28);
+        OwnerAge.add(29);
+        OwnerAge.add(38);
+
+        OwnerMobileNumber.add(965L);
+        OwnerMobileNumber.add(123L);
+        OwnerMobileNumber.add(123L);
+        OwnerMobileNumber.add(123L);
+        OwnerMobileNumber.add(123L);
+        OwnerMobileNumber.add(123L);
+        OwnerMobileNumber.add(123L);
+
+        OwnerCity.add("Bengaluru");
+        OwnerCity.add("Bengaluru");
+        OwnerCity.add("Pune");
+        OwnerCity.add("Nagpur");
+        OwnerCity.add("Mumbai");
+        OwnerCity.add("Delhi");
+        OwnerCity.add("Chennai");
+
+        Rating.add("*");
+        Rating.add("*");
+        Rating.add("*");
+        Rating.add("");
+        Rating.add("");
+        Rating.add("*");
+        Rating.add("");
+    }
+
+    void admin() {
+        JPanel adminPanel = new JPanel();
+        adminPanel.setLayout(new BorderLayout());
+
+        JTextArea adminTextArea = new JTextArea(10, 20);
+        adminTextArea.setEditable(false);
+
+        JScrollPane adminScrollPane = new JScrollPane(adminTextArea);
+
+        JButton ownerListButton = new JButton("Owner List");
+        ownerListButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < OwnerName.size(); i++) {
+                    sb.append("Name: ").append(OwnerName.get(i)).append("\n");
+                }
+                adminTextArea.setText(sb.toString());
+            }
+        });
+
+        JButton clientsListButton = new JButton("Clients List");
+        clientsListButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                StringBuilder sb = new StringBuilder();
+                if (ClientName.isEmpty()) {
+                    sb.append("No Registered Clients yet.");
+                } else {
+                    for (int i = 0; i < ClientName.size(); i++) {
+                        sb.append(i).append(". ").append(ClientName.get(i)).append("\n");
+                    }
+                }
+                adminTextArea.setText(sb.toString());
+            }
+        });
+
+        JButton clientsWithBookingButton = new JButton("Clients with Booking");
+        clientsWithBookingButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                StringBuilder sb = new StringBuilder();
+                if (bookings.isEmpty()) {
+                    sb.append("No Booking yet.");
+                } else {
+                    for (int i = 0; i < bookings.size(); i++) {
+                        BookingDetails booking = bookings.get(i);
+                        sb.append(i).append(". ").append(ClientName.get(booking.getClientIndex())).append("\n");
+                    }
+                }
+                adminTextArea.setText(sb.toString());
+            }
+        });
+
+        adminPanel.add(adminScrollPane, BorderLayout.CENTER);
+        adminPanel.add(ownerListButton, BorderLayout.NORTH);
+        adminPanel.add(clientsListButton, BorderLayout.WEST);
+        adminPanel.add(clientsWithBookingButton, BorderLayout.EAST);
+
+        JOptionPane.showMessageDialog(null, adminPanel, "Admin", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    void client() {
+        JPanel clientPanel = new JPanel();
+        clientPanel.setLayout(new GridLayout(2, 2, 10, 10));
+
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clientLogin();
+            }
+        });
+
+        JButton registrationButton = new JButton("Registration");
+        registrationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clientRegistration();
+            }
+        });
+
+        clientPanel.add(loginButton);
+        clientPanel.add(registrationButton);
+
+        JOptionPane.showMessageDialog(null, clientPanel, "Client", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    void owner() {
+        JPanel ownerPanel = new JPanel();
+        ownerPanel.setLayout(new GridLayout(2, 2, 10, 10));
+
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ownerLogin();
+            }
+        });
+
+        JButton registrationButton = new JButton("Registration");
+        registrationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ownerRegistration();
+            }
+        });
+
+        ownerPanel.add(loginButton);
+        ownerPanel.add(registrationButton);
+
+        JOptionPane.showMessageDialog(null, ownerPanel, "Owner", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    void clientLogin() {
+        JTextField mobileNumberField = new JTextField(10);
+        JPasswordField passwordField = new JPasswordField(10);
+
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(new GridLayout(3, 2, 10, 10));
+        loginPanel.add(new JLabel("Username (Mobile Number):"));
+        loginPanel.add(mobileNumberField);
+        loginPanel.add(new JLabel("Password:"));
+        loginPanel.add(passwordField);
+
+        int result = JOptionPane.showConfirmDialog(null, loginPanel, "Client Login", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            long mobileNumber = Long.parseLong(mobileNumberField.getText());
+            String password = new String(passwordField.getPassword());
+
+            boolean flag1 = false;
+            int j;
+            for (j = 0; j < ClientMobileNumber.size(); j++) {
+                if (ClientMobileNumber.get(j).equals(mobileNumber) && ClientPassword.get(j).equals(password)) {
+                    flag1 = true;
+                    break;
+                }
+            }
+
+            if (flag1) {
+                JOptionPane.showMessageDialog(null, "Login Successful!");
+                clientBooking(j);
+            } else {
+                JOptionPane.showMessageDialog(null, "Wrong password or username");
+            }
+        }
+    }
+
+    void ownerLogin() {
+        JTextField mobileNumberField = new JTextField(10);
+        JPasswordField passwordField = new JPasswordField(10);
+
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(new GridLayout(3, 2, 10, 10));
+        loginPanel.add(new JLabel("Username (Mobile Number):"));
+        loginPanel.add(mobileNumberField);
+        loginPanel.add(new JLabel("Password:"));
+        loginPanel.add(passwordField);
+
+        int result = JOptionPane.showConfirmDialog(null, loginPanel, "Owner Login", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            long mobileNumber = Long.parseLong(mobileNumberField.getText());
+            String password = new String(passwordField.getPassword());
+
+            boolean flag1 = false;
+            int j;
+            for (j = 0; j < OwnerMobileNumber.size(); j++) {
+                if (OwnerMobileNumber.get(j).equals(mobileNumber) && OwnerPassword.get(j).equals(password)) {
+                    flag1 = true;
+                    break;
+                }
+            }
+
+            if (flag1) {
+                JOptionPane.showMessageDialog(null, "Login Successful!");
+                ownerMenu(j);
+            } else {
+                JOptionPane.showMessageDialog(null, "Wrong password or username");
+            }
+        }
+    }
+
+    void clientBooking(int clientIndex) {
+        JComboBox<String> vehicleComboBox = new JComboBox<>(Vehicle.toArray(new String[0]));
+
+        JPanel bookingPanel = new JPanel();
+        bookingPanel.setLayout(new GridLayout(2, 2, 10, 10));
+        bookingPanel.add(new JLabel("Choose a vehicle to book:"));
+        bookingPanel.add(vehicleComboBox);
+
+        int result = JOptionPane.showConfirmDialog(null, bookingPanel, "Client Booking", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            int ownerIndex = vehicleComboBox.getSelectedIndex();
+
+            if (ownerIndex >= 0 && ownerIndex < Vehicle.size()) {
+                String ownerName = OwnerName.get(ownerIndex);
+                String vehicle = Vehicle.get(ownerIndex);
+                int fare = VehFare.get(ownerIndex);
+                int ownerAge = OwnerAge.get(ownerIndex);
+                long ownerMobileNumber = OwnerMobileNumber.get(ownerIndex);
+                String ownerCity = OwnerCity.get(ownerIndex);
+                int ownerExperience = OwnerExperience.get(ownerIndex);
+                String rating = Rating.get(ownerIndex);
+
+                JTextField bookDateField = new JTextField(10);
+                JTextField returnDateField = new JTextField(10);
+
+                JPanel datePanel = new JPanel();
+                datePanel.setLayout(new GridLayout(2, 2, 10, 10));
+                datePanel.add(new JLabel("Renting Date (DD MM YY):"));
+                datePanel.add(bookDateField);
+                datePanel.add(new JLabel("Returning Date (DD MM YY):"));
+                datePanel.add(returnDateField);
+
+                result = JOptionPane.showConfirmDialog(null, datePanel, "Booking Dates", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    String bookDate = bookDateField.getText();
+                    String returnDate = returnDateField.getText();
+
+                    bookings.add(new BookingDetails(ownerIndex, clientIndex, bookDate, returnDate));
+                    JOptionPane.showMessageDialog(null, "Booking Successful!\n\nOwner Name: " + ownerName
+                            + "\nVehicle: " + vehicle + "\nFare: " + fare + " Rs/day" + "\nAge: " + ownerAge
+                            + "\nMobile: " + ownerMobileNumber + "\nCity: " + ownerCity + "\nRating: " + rating
+                            + "\nUsage: " + ownerExperience + " Years");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid choice");
+            }
+        }
+    }
+
+    void ownerMenu(int ownerIndex) {
+        JComboBox<String> bookingComboBox = new JComboBox<>();
+
+        for (int i = 0; i < bookings.size(); i++) {
+            BookingDetails booking = bookings.get(i);
+            if (booking.getOwnerIndex() == ownerIndex) {
+                bookingComboBox.addItem("Booking " + (i + 1) + ": " + ClientName.get(booking.getClientIndex()) 
+                );
+            }
+        }
+
+        JPanel ownerMenuPanel = new JPanel();
+        ownerMenuPanel.setLayout(new GridLayout(2, 2, 10, 10));
+        ownerMenuPanel.add(new JLabel("My Bookings:"));
+        ownerMenuPanel.add(bookingComboBox);
+
+        int result = JOptionPane.showConfirmDialog(null, ownerMenuPanel, "Owner Menu", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            int selectedBookingIndex = bookingComboBox.getSelectedIndex();
+            if (selectedBookingIndex >= 0 && selectedBookingIndex < bookings.size()) {
+                BookingDetails booking = bookings.get(selectedBookingIndex);
+                int clientIndex = booking.getClientIndex();
+
+                JOptionPane.showMessageDialog(null,
+                        "Booking " + (selectedBookingIndex + 1) + "\nName: " + ClientName.get(clientIndex)
+                                + "\nVehicle: " + Vehicle.get(booking.getOwnerIndex()) + "\nAge: "
+                                + ClientAge.get(clientIndex) + "\nMobile: " + ClientMobileNumber.get(clientIndex)
+                                + "\nCity: " + OwnerCity.get(booking.getOwnerIndex()) + "\nBooking Date: "
+                                + booking.getBookDate() + "\nReturn Date: " + booking.getReturnDate());
+            }
+        }
+    }
+
+    void clientRegistration() {
+        JTextField nameField = new JTextField(10);
+        JTextField genderField = new JTextField(10);
+        JTextField ageField = new JTextField(10);
+        JTextField mobileNumberField = new JTextField(10);
+        JTextField dlField = new JTextField(10);
+        JPasswordField passwordField = new JPasswordField(10);
+        JPasswordField confirmPasswordField = new JPasswordField(10);
+
+        JPanel registrationPanel = new JPanel();
+        registrationPanel.setLayout(new GridLayout(8, 1, 10, 10));
+
+        JPanel namePanel = new JPanel();
+        namePanel.add(new JLabel("Name:"));
+        namePanel.add(nameField);
+        registrationPanel.add(namePanel);
+
+        JPanel genderPanel = new JPanel();
+        genderPanel.add(new JLabel("Gender:"));
+        genderPanel.add(genderField);
+        registrationPanel.add(genderPanel);
+
+        JPanel agePanel = new JPanel();
+        agePanel.add(new JLabel("Age:"));
+        agePanel.add(ageField);
+        registrationPanel.add(agePanel);
+
+        JPanel mobileNumberPanel = new JPanel();
+        mobileNumberPanel.add(new JLabel("Mobile Number:"));
+        mobileNumberPanel.add(mobileNumberField);
+        registrationPanel.add(mobileNumberPanel);
+
+        JPanel dlPanel = new JPanel();
+        dlPanel.add(new JLabel("Driving License:"));
+        dlPanel.add(dlField);
+        registrationPanel.add(dlPanel);
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.add(new JLabel("Password:"));
+        passwordPanel.add(passwordField);
+        registrationPanel.add(passwordPanel);
+
+        JPanel confirmPasswordPanel = new JPanel();
+        confirmPasswordPanel.add(new JLabel("Confirm Password:"));
+        confirmPasswordPanel.add(confirmPasswordField);
+        registrationPanel.add(confirmPasswordPanel);
+
+        registrationPanel.setPreferredSize(new Dimension(300, 250)); // Adjust the size as needed
+
+        int result = JOptionPane.showConfirmDialog(null, registrationPanel, "Client Registration",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String name = nameField.getText();
+            String gender = genderField.getText();
+            int age = Integer.parseInt(ageField.getText());
+            long mobileNumber = Long.parseLong(mobileNumberField.getText());
+            long dl = Long.parseLong(dlField.getText());
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
+
+            if (password.equals(confirmPassword)) {
+                ClientName.add(name);
+                ClientGender.add(gender);
+                ClientAge.add(age);
+                ClientMobileNumber.add(mobileNumber);
+                ClientDL.add(dl);
+                ClientPassword.add(password);
+                ClientConfirmPassword.add(confirmPassword);
+                JOptionPane.showMessageDialog(null, "Registration Successful!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Passwords do not match!");
+            }
+        }
+    }
+
+    void ownerRegistration() {
+        JTextField nameField = new JTextField(10);
+        JTextField genderField = new JTextField(10);
+        JTextField ageField = new JTextField(10);
+        JTextField mobileNumberField = new JTextField(10);
+        JTextField experienceField = new JTextField(10);
+        JTextField cityField = new JTextField(10);
+        JTextField ratingField = new JTextField(10);
+        JPasswordField passwordField = new JPasswordField(10);
+
+        JPanel registrationPanel = new JPanel();
+        registrationPanel.setLayout(new GridLayout(8, 2, 10, 10));
+        registrationPanel.add(new JLabel("Name:"));
+        registrationPanel.add(nameField);
+        registrationPanel.add(new JLabel("Gender:"));
+        registrationPanel.add(genderField);
+        registrationPanel.add(new JLabel("Age:"));
+        registrationPanel.add(ageField);
+        registrationPanel.add(new JLabel("Mobile Number:"));
+        registrationPanel.add(mobileNumberField);
+        registrationPanel.add(new JLabel("Experience:"));
+        registrationPanel.add(experienceField);
+        registrationPanel.add(new JLabel("City:"));
+        registrationPanel.add(cityField);
+        registrationPanel.add(new JLabel("Rating:"));
+        registrationPanel.add(ratingField);
+        registrationPanel.add(new JLabel("Password:"));
+        registrationPanel.add(passwordField);
+
+        int result = JOptionPane.showConfirmDialog(null, registrationPanel, "Owner Registration",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String name = nameField.getText();
+            String gender = genderField.getText();
+            int age = Integer.parseInt(ageField.getText());
+            long mobileNumber = Long.parseLong(mobileNumberField.getText());
+            int experience = Integer.parseInt(experienceField.getText());
+            String city = cityField.getText();
+            String rating = ratingField.getText();
+            String password = new String(passwordField.getPassword());
+
+            OwnerName.add(name);
+            OwnerGender.add(gender);
+            OwnerAge.add(age);
+            OwnerMobileNumber.add(mobileNumber);
+            OwnerExperience.add(experience);
+            OwnerCity.add(city);
+            Rating.add(rating);
+            OwnerPassword.add(password);
+            JOptionPane.showMessageDialog(null, "Registration Successful!");
+        }
+    }
+
+    public static void main(String[] args) {
+        VehicleBookingSwing obj = new VehicleBookingSwing();
+        obj.dataAdd();
+
+        String[] options = { "Admin", "Client", "Owner", "Exit" };
+        int choice = JOptionPane.showOptionDialog(null, "Choose an option", "Vehicle Booking System",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        while (choice != 3) {
+            switch (choice) {
+                case 0:
+                    obj.admin();
+                    break;
+                case 1:
+                    obj.client();
+                    break;
+                case 2:
+                    obj.owner();
+                    break;
+            }
+            choice = JOptionPane.showOptionDialog(null, "Choose an option", "Vehicle Booking System",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        }
+    }
+
+    class BookingDetails {
+        private final int ownerIndex;
+        private final int clientIndex;
+        private final String bookDate;
+        private final String returnDate;
+
+        BookingDetails(int ownerIndex, int clientIndex, String bookDate, String returnDate) {
+            this.ownerIndex = ownerIndex;
+            this.clientIndex = clientIndex;
+            this.bookDate = bookDate;
+            this.returnDate = returnDate;
+        }
+
+        int getOwnerIndex() {
+            return ownerIndex;
+        }
+
+        int getClientIndex() {
+            return clientIndex;
+        }
+
+        String getBookDate() {
+            return bookDate;
+        }
+
+        String getReturnDate() {
+            return returnDate;
+        }
+    }
+}
